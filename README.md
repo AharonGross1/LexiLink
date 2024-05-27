@@ -1,20 +1,57 @@
 # Hypernym-Database
-Hyponymy and hypernymy are semantic relations between a term belonging in a set that is defined by another term and the latter. In other words, the relationship of a subtype (hyponym) and the supertype (also called umbrella term, blanket term, or hypernym). The semantic field of the hyponym is included within that of the hypernym. For example, pigeon, crow, and eagle are all hyponyms of bird, their hypernym. (source - [wikipedia](https://en.wikipedia.org/wiki/Hyponymy_and_hypernymy)).
 
-### This program provides 2 functions:
+Hyponymy and hypernymy are semantic relations between a specific term and a broader, more general term. In simpler terms, a hyponym is a subtype of a hypernym. For example, banana, grape, and melon are all hyponyms of the hypernym fruit. (Source: [Wikipedia](https://en.wikipedia.org/wiki/Hyponymy_and_hypernymy)).
 
-1) Search for occurences of a specific hyponymy in the database and print them to the console.
-2) Create a file listing all of the different Hypernymy and the Hyponymy related to them in the database.
+## Program Functions
 
-Note - the corpus provided here is comprised of a single file. You can download a bigger corpus [here](https://drive.google.com/drive/folders/11aVnX9r-k5iy2GafZd-o5lBBgeNRuFDN?usp=sharing).
+This program provides two main functions:
 
-### How to use:
+1. **Search for Occurrences of a Specific Hyponym**: Find and display instances of a specific hyponym in the database.
+2. **Create a Hypernym-Hyponym List**: Generate a file listing all hypernyms and their related hyponyms from the database.
 
-Download the files and unzip the corpus. Please make sure that the corpus' folder contains only files that belong to the corpus.
+## How to Use
 
-Open the cmd at the file location and enter the command ```javac Main.java HypernymDatabase.java Search.java Sort.java Hypernym.java Hyponym.java```.
+### Prerequisites
 
-For option 1 (as explained previously), enter the command ```java Main 1 ...path\corpus keyword``` with ```1``` indicating option 1 ```...Path\corpus``` being the folder containing the corpus' files and ```keyword``` being the Hyponym to search for in the database.
+Ensure that you have the Java Development Kit (JDK) installed on your computer.
 
-For option 2 (as explained previously), enter the command ```java Main x ...path\corpus ...path\fileName``` with ```x``` being any string other than "1", ```...Path\corpus``` the folder containing the corpus' files and ```...path\fileName``` the location for the hypernymy-hyponymy database output.
+### Downloading the Corpus
 
+The program requires a corpus to operate. You can download a larger corpus [here](https://drive.google.com/drive/folders/11aVnX9r-k5iy2GafZd-o5lBBgeNRuFDN?usp=sharing). After downloading, unzip the corpus. Ensure the corpus folder contains only the relevant files.
+
+### Compiling the Program
+
+Open the command prompt at the file location and compile the Java files with the following command:
+
+```javac Main.java HypernymDatabase.java Search.java Sort.java Hypernym.java Hyponym.java```
+
+## Running the Program
+
+### Option 1: Search for Occurrences of a Specific Hyponym
+
+To search for occurrences of a specific hyponym in the database, use the following command:
+
+```java Main 1 path/to/corpus keyword```
+- ```1``` indicates the search option.
+- ```path/to/corpus``` is the folder containing the corpus files.
+- ```keyword``` is the hyponym you want to search for.
+
+
+### Option 2: Create a Hypernym-Hyponym List
+
+To create a file listing all hypernyms and their related hyponyms, use the following command:
+```java Main x path/to/corpus path/to/outputFile```
+- ```x``` can be any string other than "1" to indicate the listing option.
+- ```path/to/corpus``` is the folder containing the corpus files.
+- ```path/to/outputFile``` is the location where the output file will be created.
+
+## Example Commands
+### Search for Hyponym "dog":
+```java Main 1 /path/to/corpus dog```
+
+### Generate Hypernym-Hyponym List:
+```java Main generate /path/to/corpus /path/to/outputFile```
+
+## Notes
+- Ensure that the corpus folder only contains files relevant to the corpus to avoid processing errors.
+- The output file for the hypernym-hyponym list will be created at the specified location.
