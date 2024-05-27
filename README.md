@@ -23,7 +23,7 @@ The program requires a corpus to operate. You can download a larger corpus [here
 
 Open the command prompt at the file location and compile the Java files with the following command:
 
-```javac Main.java HypernymDatabase.java Search.java Sort.java Hypernym.java Hyponym.java```
+```javac -d bin src\*.java```
 
 ## Running the Program
 
@@ -40,6 +40,7 @@ To search for occurrences of a specific hyponym in the database, use the followi
 ### Option 2: Create a Hypernym-Hyponym List
 
 To create a file listing all hypernyms and their related hyponyms, use the following command:
+
 ```java Main x path/to/corpus path/to/outputFile```
 - ```x``` can be any string other than "1" to indicate the listing option.
 - ```path/to/corpus``` is the folder containing the corpus files.
@@ -47,10 +48,10 @@ To create a file listing all hypernyms and their related hyponyms, use the follo
 
 ## Example Commands
 ### Search for Hyponym "dog":
-```java Main 1 /path/to/corpus dog```
+```java -cp bin Main 1 path/to/corpus banana```
 
 ### Generate Hypernym-Hyponym List:
-```java Main generate /path/to/corpus /path/to/outputFile```
+```java -cp bin Main generate /path/to/corpus /path/to/outputFile```
 
 ## Notes
 - Ensure that the corpus folder only contains files relevant to the corpus to avoid processing errors.
