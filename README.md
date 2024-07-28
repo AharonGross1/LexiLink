@@ -35,7 +35,7 @@ Open the command prompt at the file location and compile the Java files with the
 
 To search for occurrences of a specific hyponym in the database, use the following command:
 
-```java Main 1 path/to/corpus keyword```
+```java -cp bin Main 1 path/to/corpus keyword```
 - ```1``` indicates the search option.
 - ```path/to/corpus``` is the folder containing the corpus files.
 - ```keyword``` is the hyponym you want to search for.
@@ -45,7 +45,7 @@ To search for occurrences of a specific hyponym in the database, use the followi
 
 To create a file listing all hypernyms and their related hyponyms, use the following command:
 
-```java Main x path/to/corpus path/to/outputFile```
+```java -cp bin Main x path/to/corpus path/to/outputFile```
 - ```x``` can be any string other than "1" to indicate the listing option.
 - ```path/to/corpus``` is the folder containing the corpus files.
 - ```path/to/outputFile``` is the location where the output file will be created.
