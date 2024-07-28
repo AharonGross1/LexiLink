@@ -51,7 +51,7 @@ To create a file listing all hypernyms and their related hyponyms, use the follo
 - ```path/to/outputFile``` is the location where the output file will be created.
 
 ## Example Commands
-### Search for Hyponym "dog":
+### Search for Hyponym "banana":
 ```java -cp bin Main 1 path/to/corpus banana```
 
 ### Generate Hypernym-Hyponym List:
