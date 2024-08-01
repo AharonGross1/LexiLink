@@ -8,11 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A class with a search method where the Hypernym is at the beginning of the sentence.
- */
+ * A class with methods to search for hypernyms and hyponyms in text files.
+**/
 public class Search {
-    private final String lemma;
-    private final String phrase = "<np>[^<]*</np>";
+    private final String lemma; // The lemma to search for
+    private final String phrase = "<np>[^<]*</np>"; // Pattern for noun phrases
 
     /**
      * Class constructor.
@@ -23,7 +23,8 @@ public class Search {
         if (search != null) {
             search = search.toLowerCase();
         }
-        this.lemma = search;
+        // Set the lemma to search for (in lowercase)
+        this.lemma = search; 
     }
 
     /**
@@ -36,15 +37,15 @@ public class Search {
         int counter = 0;
         Hypernym father = new Hypernym("");
         Hyponym kid;
-        while (np.find()) {
-            String sub = np.group().substring(4, np.group(0).length() - 5);
-            if (counter == 0) {
+        while (np.find()) { // Find all noun phrases in the matcher
+            String sub = np.group().substring(4, np.group(0).length() - 5); // Extract noun phrase without tags
+            if (counter == 0) { // First noun phrase is the hypernym
                 father = new Hypernym(sub);
                 if (!map.containsKey(father)) {
                     map.put(father, father.getMap());
                 }
                 counter++;
-            } else {
+            } else { // Subsequent noun phrases are hyponyms
                 kid = new Hyponym(sub);
                 addToMap(father, kid, map);
             }
@@ -61,11 +62,13 @@ public class Search {
         int counter = 0;
         Hypernym father;
         Hyponym kid = new Hyponym("");
-        while (np.find() && counter < 2) {
-            String sub = np.group().substring(4, np.group(0).length() - 5);
-            if (counter == 0) {
+
+        // Find up to two noun phrases
+        while (np.find() && counter < 2) { 
+            String sub = np.group().substring(4, np.group(0).length() - 5); // Extract noun phrase without tags
+            if (counter == 0) { // First noun phrase is the hyponym
                 kid = new Hyponym(sub);
-            } else if (counter == 1) {
+            } else if (counter == 1) { // Second noun phrase is the hypernym
                 father = new Hypernym(sub);
                 if (!map.containsKey(father)) {
                     map.put(father, father.getMap());
@@ -78,7 +81,7 @@ public class Search {
     }
 
     /**
-     * Add Hyponym to map to Hypernym's map if it isn't there yet.
+     * Add Hyponym to map under Hypernym if not already present, otherwise increment its count.
      *
      * @param father - The Hypernym.
      * @param kid    - Hyponym to add.
@@ -87,20 +90,23 @@ public class Search {
     private void addToMap(Hypernym father, Hyponym kid, TreeMap<Hypernym, TreeMap<Hyponym, Integer>> map) {
         boolean inMap = false;
         for (Hyponym h : map.get(father).keySet()) {
-            if (kid.getName().equals(h.getName())) {
+            // Check if hyponym already exists
+            if (kid.getName().equals(h.getName())) { 
                 inMap = true;
                 break;
             }
         }
+
+        // If the hyponym isn't present in the map yet, add it with a count of 1
         if (!inMap) {
             map.get(father).put(kid, 1);
-        } else {
+        } else { // if the hyponym is already present, increment its count
             map.get(father).replace(kid, map.get(father).get(kid) + 1);
         }
     }
 
     /**
-     * Running each line of the db.
+     * Running each line of the db and searching for patterns.
      *
      * @param pattern    - The pattern to search for.
      * @param nounPhrase - "np" appearances in the text.
@@ -110,19 +116,22 @@ public class Search {
      */
     private void searchInside(Pattern pattern, Pattern nounPhrase, String line,
                               TreeMap<Hypernym, TreeMap<Hyponym, Integer>> map, String searchType) {
+        // Find all matches of the pattern in the line
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
             Matcher np = nounPhrase.matcher(matcher.group(0));
+
+            // If search type is "end", call end method
             if (searchType.equals("end")) {
-                end(np, map);
-            } else if (searchType.equals("start")) {
-                start(np, map);
+                this.end(np, map);
+            } else if (searchType.equals("start")) { // If search type is "start", call start method
+                this.start(np, map);
             }
         }
     }
 
     /**
-     * Search for patterns in the database.
+     * Search for patterns in the database, looking for hypernyms at the end of the sentence.
      *
      * @param pattern  - The pattern to search for.
      * @param map      - The map to collect the data.
@@ -134,22 +143,26 @@ public class Search {
         for (File file : fileList) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String line;
+
+            // Read each line in the file
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.toLowerCase();
+                // Check if line contains specific phrase
                 boolean b = line.contains("which is");
                 if (this.lemma != null) {
                     if (line.contains(this.lemma) && b) {
-                        searchInside(pattern, nounPhrase, line, map, "end");
+                        // Search for patterns if conditions met
+                        this.searchInside(pattern, nounPhrase, line, map, "end");
                     }
                 } else if (b) {
-                    searchInside(pattern, nounPhrase, line, map, "end");
+                    this.searchInside(pattern, nounPhrase, line, map, "end");
                 }
             }
         }
     }
 
     /**
-     * Search for patterns in the database.
+     * Search for patterns in the database, looking for hypernyms at the beginning of the sentence.
      *
      * @param pattern  - The pattern to search for.
      * @param map      - The map to collect the data.
@@ -162,16 +175,20 @@ public class Search {
         for (File file : fileList) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String line;
+
+            // Read each line in the file
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.toLowerCase();
+                // Check if line contains specific phrases
                 boolean b = line.contains("such") || line.contains("including") || line.contains("especially");
                 if (this.lemma != null) {
                     if (line.contains(this.lemma) && b) {
-                        searchInside(pattern, nounPhrase, line, map, "start");
+                        // Search for patterns if conditions met
+                        this.searchInside(pattern, nounPhrase, line, map, "start");
                     }
                 } else {
                     if (b) {
-                        searchInside(pattern, nounPhrase, line, map, "start");
+                        this.searchInside(pattern, nounPhrase, line, map, "start");
                     }
                 }
             }

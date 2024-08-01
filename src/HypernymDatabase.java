@@ -27,26 +27,27 @@ public class HypernymDatabase {
     public void searchForHyponym(String path, String key) {
         // Create map
         TreeMap<Hypernym, TreeMap<Hyponym, Integer>> map = createMap(path, key);
+        Hyponym hypToFind = new Hyponym(key);
 
-        Hyponym lemma = new Hyponym(key);
-        // Create a map with Hypernyms containing the lemma
+        // Create a map with Hypernyms containing the hypToFind
         TreeMap<String, Integer> finalMap = new TreeMap<>();
-        for (Hypernym h : map.keySet()) {
-            if (map.get(h).containsKey(lemma)) {
-                finalMap.put(h.getName(), map.get(h).get(lemma));
+        for (Hypernym hyp : map.keySet()) {
+            if (map.get(hyp).containsKey(hypToFind)) {
+                finalMap.put(hyp.getName(), map.get(hyp).get(hypToFind));
             }
         }
+
         if (finalMap.isEmpty()) {
-            System.out.println("The lemma doesn't appear in the corpus.");
+            System.out.println("The hyponym you entered doesn't appear in the corpus.");
             return;
         }
-        // Sort and print
-        Sort<String, Integer> sort = new Sort<>();
-        Map<String, Integer> sortedMap = sort.hyponymByValue(finalMap);
 
-        Set<Map.Entry<String, Integer>> set = sortedMap.entrySet();
-        for (Map.Entry<String, Integer> o : set) {
-            System.out.println(o.getKey() + ": " + "(" + o.getValue() + ")");
+        // Sort and print all the Hypernyms
+        Sort<String, Integer> sortingAlg = new Sort<>();
+        Map<String, Integer> sortedMap = sortingAlg.hyponymByValue(finalMap);
+        Set<Map.Entry<String, Integer>> HypernymAndValueSet = sortedMap.entrySet();
+        for (Map.Entry<String, Integer> set : HypernymAndValueSet) {
+            System.out.println(set.getKey() + ": " + "(" + set.getValue() + ")");
         }
     }
 
@@ -74,17 +75,17 @@ public class HypernymDatabase {
                     j++;
 
                     // Sort and write Hyponyms
-                    Sort<Hyponym, Integer> sort = new Sort<>();
-                    Map<Hyponym, Integer> sortedMap = sort.hyponymByValue(map.get(h));
+                    Sort<Hyponym, Integer> sortingAlg = new Sort<>();
+                    Map<Hyponym, Integer> sortedMap = sortingAlg.hyponymByValue(map.get(h));
 
                     Set<Map.Entry<Hyponym, Integer>> hyponymCountSet = sortedMap.entrySet();
                     int i = 0;
-                    for (Map.Entry<Hyponym, Integer> o : hyponymCountSet) {
+                    for (Map.Entry<Hyponym, Integer> set : hyponymCountSet) {
                         if (i != 0 && i != hyponymCountSet.size()) {
                             dataBase.write(",");
                         }
                         dataBase.write(" ");
-                        dataBase.write((o.getKey()).getName() + " (" + o.getValue() + ")");
+                        dataBase.write((set.getKey()).getName() + " (" + set.getValue() + ")");
                         i++;
                     }
                 }
