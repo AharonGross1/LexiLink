@@ -1,6 +1,10 @@
 # Hypernym-Database
 
 Hyponymy and hypernymy are semantic relations between a specific term and a broader, more general term. In simpler terms, a hyponym is a subtype of a hypernym. For example, banana, grape, and melon are all hyponyms of the hypernym fruit. (Source: [Wikipedia](https://en.wikipedia.org/wiki/Hyponymy_and_hypernymy)).
+<br></br>
+<a href="https://github.com/AharonGross1/LexiLink/blob/main/assets/hype-img.png?raw=true">
+    <img src="https://github.com/AharonGross1/LexiLink/blob/main/assets/hype-img.png?raw=true" alt="Hype Image">
+</a>
 
 ## Program Functions
 
@@ -31,7 +35,7 @@ Open the command prompt at the file location and compile the Java files with the
 
 To search for occurrences of a specific hyponym in the database, use the following command:
 
-```java Main 1 path/to/corpus keyword```
+```java -cp bin Main 1 path/to/corpus keyword```
 - ```1``` indicates the search option.
 - ```path/to/corpus``` is the folder containing the corpus files.
 - ```keyword``` is the hyponym you want to search for.
@@ -41,13 +45,13 @@ To search for occurrences of a specific hyponym in the database, use the followi
 
 To create a file listing all hypernyms and their related hyponyms, use the following command:
 
-```java Main x path/to/corpus path/to/outputFile```
+```java -cp bin Main x path/to/corpus path/to/outputFile```
 - ```x``` can be any string other than "1" to indicate the listing option.
 - ```path/to/corpus``` is the folder containing the corpus files.
 - ```path/to/outputFile``` is the location where the output file will be created.
 
 ## Example Commands
-### Search for Hyponym "dog":
+### Search for Hyponym "banana":
 ```java -cp bin Main 1 path/to/corpus banana```
 
 ### Generate Hypernym-Hyponym List:
